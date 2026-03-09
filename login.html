@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Bennett Sports Login</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f3f4f6;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+width:350px;
+text-align:center;
+}
+
+.logo{
+width:100px;
+margin-bottom:10px;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#d60000;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#b40000;
+}
+
+#msg{
+margin-top:10px;
+font-weight:bold;
+color:red;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+<img class="logo" src="bennett.png" style="width:120px; display:block; margin:0 auto 10px auto;">
+
+<h2>Bennett Court Booking</h2>
+
+<input type="text" id="collegeId" placeholder="Enter Bennett Email">
+
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
+
+</div>
+
+
+<script>
+
+function login(){
+
+const id=document.getElementById("collegeId").value;
+
+if(!id.endsWith("@bennett.edu.in")){
+document.getElementById("msg").innerText="Use your Bennett email";
+return;
+}
+
+localStorage.setItem("user",id);
+
+window.location.href="index.html";
+
+}
+
+</script>
+
+</body>
+</html>

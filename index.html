@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Bennett Sports Court Booking</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f3f4f6;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+width:350px;
+text-align:center;
+}
+
+.logo{
+width:90px;
+margin-bottom:10px;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+select,input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#d60000;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#b40000;
+}
+
+#msg{
+margin-top:10px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f3f4f6;"></body>
+
+<div style="display:flex; gap:30px;">
+<div style="
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+width:350px;
+text-align:center;
+">
+
+<img class="logo" src="bennett.png" style="width:120px; display:block; margin:0 auto 10px auto;">
+<h2>Bennett Court Booking</h2>
+
+<select id="sport">
+<option>🏀 Basketball</option>
+<option>🥒 Pickleball</option>
+<option>🏸 Badminton</option>
+<option>🏐 Volleyball</option>
+<option>🏓 Table Tennis</option>
+<option>🎾 Lawn Tennis</option>
+</select>
+<input type="date" id="date">
+
+<input type="time" id="time" min="07:00" max="23:00" step="3600" required>
+
+<button onclick="book()">Book Court</button>
+
+<p id="msg"></p>
+
+</div>
+<div style="
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+width:280px;
+">
+
+<h3>Court Availability</h3>
+
+
+<p><b>🏀 Basketball</b></p>
+<p>5–6 PM 🟢 Available</p>
+<p>6–7 PM 🟡 Busy</p>
+<p>7–8 PM 🔴 Peak</p>
+
+<hr>
+
+<p><b>🏸 Badminton</b></p>
+<p>5–6 PM 🟢 Available</p>
+<p>6–7 PM 🟢 Available</p>
+<p>7–8 PM 🔴 Peak</p>
+
+<hr>
+
+<p><b>🏐 Volleyball</b></p>
+<p>6–7 PM 🟡 Busy</p>
+<p>7–8 PM 🔴 Peak</p>
+
+</div>
+
+
+<script>
+if(!localStorage.getItem("user")){
+window.location.href="login.html";
+}
+
+async function book(){
+
+const sport=document.getElementById("sport").value;
+const date=document.getElementById("date").value;
+const time=document.getElementById("time").value;
+if(time < "07:00" || time > "23:00"){
+alert("Courts are open only between 7 AM and 11 PM");
+return;
+}
+let minutes = time.split(":")[1];
+
+if(minutes !== "00"){
+alert("Bookings must be in full hour intervals (e.g., 8:00, 9:00)");
+return;
+}
+const user=localStorage.getItem("user") || "demo@bennett.edu.in";
+
+const res=await fetch("http://localhost:5000/book",{
+
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({sport,date,time,user})
+
+});
+
+const data=await res.json();
+
+document.getElementById("msg").innerText=data.message;
+
+}
+
+</script>
+
+</body>
+</html>
